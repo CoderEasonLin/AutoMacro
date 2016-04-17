@@ -1,6 +1,6 @@
 namespace AutoMacro.Enum
 {
-    enum KeyModifier
+    public enum KeyModifier
     {
         None = 0,
         Alt = 1,

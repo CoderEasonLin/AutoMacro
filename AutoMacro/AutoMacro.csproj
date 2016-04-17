@@ -46,6 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoMacro.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AutoMacro.Designer.cs">
+      <DependentUpon>AutoMacro.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Class\HotKey.cs" />
     <Compile Include="Class\RECT.cs" />
     <Compile Include="Class\TargetApplication.cs" />
     <Compile Include="Class\Win32.cs" />
@@ -59,6 +66,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AutoMacro.resx">
+      <DependentUpon>AutoMacro.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
