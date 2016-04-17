@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.txtMacro = new System.Windows.Forms.RichTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -46,13 +46,13 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "1. Please focus on the window you want to use macro and press CTRL + 1.";
             // 
-            // richTextBox1
+            // txtMacro
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(15, 44);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(516, 470);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
+            this.txtMacro.Location = new System.Drawing.Point(15, 44);
+            this.txtMacro.Name = "txtMacro";
+            this.txtMacro.Size = new System.Drawing.Size(516, 470);
+            this.txtMacro.TabIndex = 1;
+            this.txtMacro.Text = "";
             // 
             // label2
             // 
@@ -91,6 +91,7 @@
             this.button1.TabIndex = 5;
             this.button1.Text = "Run";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // AutoMacro
             // 
@@ -101,7 +102,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.txtMacro);
             this.Controls.Add(this.label1);
             this.Name = "AutoMacro";
             this.Text = "AutoMacro";
@@ -113,7 +114,7 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox txtMacro;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;

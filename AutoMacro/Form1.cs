@@ -45,7 +45,7 @@ namespace AutoMacro
         {
             var handle = Win32.GetForegroundWindow();
             int count = 255;
-            var stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder(count);
             Win32.GetWindowText(handle, stringBuilder, count);
 
             RECT rect;
