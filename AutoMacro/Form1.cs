@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -137,13 +136,6 @@ namespace AutoMacro
 
             richTextBox1.Text = sb.ToString();
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            var proc = Process.GetCurrentProcess();
-
-        }
-
 
         private Point position;
         private void button2_Click(object sender, EventArgs e)
