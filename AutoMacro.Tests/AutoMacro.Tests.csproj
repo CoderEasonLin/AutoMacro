@@ -50,8 +50,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="MacroCompilerTests.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AutoMacro\AutoMacro.csproj">
+      <Project>{3A7E4E18-1101-4C98-ABB6-6A4E4A6BFFF7}</Project>
+      <Name>AutoMacro</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

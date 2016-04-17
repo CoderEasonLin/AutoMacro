@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -78,7 +79,7 @@ namespace AutoMacro
             txtMacro.AppendText(string.Format("MOUSE POS {0} {1}\n", mousePosition.X, mousePosition.Y));
         }
 
-        private void button1_Click(object sender, System.EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             StringBuilder sb = new StringBuilder(txtMacro.Text);
             MacroCompiler compiler = new MacroCompiler(sb);
@@ -87,12 +88,22 @@ namespace AutoMacro
 
     public class MacroCompiler
     {
-        private Regex mousePosition = new Regex("^MOUSE POS \\d+ \\d+$");
-        private Regex funcStart = new Regex("FUNC ");
+        public Regex MousePosition = new Regex("^MOUSE POS (\\d+) (\\d+)$");
+        public Regex FuncStart = new Regex("FUNC ");
 
         public MacroCompiler(StringBuilder sb)
         {
             
         }
+
+        public MacroAction Compile()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class MacroAction
+    {
+        public List<Class.Action> Actions { get; set; }
     }
 }

@@ -52,10 +52,12 @@
     <Compile Include="AutoMacro.Designer.cs">
       <DependentUpon>AutoMacro.cs</DependentUpon>
     </Compile>
+    <Compile Include="Class\Action.cs" />
     <Compile Include="Class\HotKey.cs" />
     <Compile Include="Class\RECT.cs" />
     <Compile Include="Class\TargetApplication.cs" />
     <Compile Include="Class\Win32.cs" />
+    <Compile Include="Enum\ActionType.cs" />
     <Compile Include="Enum\Const.cs" />
     <Compile Include="Enum\KeyModifier.cs" />
     <Compile Include="Form1.cs">

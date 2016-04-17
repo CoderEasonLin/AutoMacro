@@ -77,8 +77,8 @@ namespace AutoMacro
             int x = position.X;
             int y = position.Y;
             int pos = ((y << 0x10) | x);
-            Win32.SendMessage(target.Handle, (int)0x201, 1, pos);
-            Win32.SendMessage(target.Handle, (int)0x202, 0, pos);
+            Win32.SendMessage(target.Handle, 0x201, 1, pos);
+            Win32.SendMessage(target.Handle, 0x202, 0, pos);
         }
     }
 }
