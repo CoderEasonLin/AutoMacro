@@ -104,6 +104,6 @@ namespace AutoMacro
 
     public class MacroAction
     {
-        public List<Class.Action> Actions { get; set; }
+        public List<Class.Movement> Actions { get; set; }
     }
 }

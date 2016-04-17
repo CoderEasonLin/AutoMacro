@@ -2,7 +2,7 @@ using AutoMacro.Enum;
 
 namespace AutoMacro.Class
 {
-    public class Action
+    public class Movement
     {
         public ActionType ActionType { get; set; }
         public int X { get; set; }

@@ -52,7 +52,7 @@
     <Compile Include="AutoMacro.Designer.cs">
       <DependentUpon>AutoMacro.cs</DependentUpon>
     </Compile>
-    <Compile Include="Class\Action.cs" />
+    <Compile Include="Class\Movement.cs" />
     <Compile Include="Class\HotKey.cs" />
     <Compile Include="Class\RECT.cs" />
     <Compile Include="Class\TargetApplication.cs" />
