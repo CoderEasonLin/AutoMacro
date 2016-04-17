@@ -1,50 +1,14 @@
 ﻿using System;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using AutoMacro.Class;
+using AutoMacro.Enum;
 
 namespace AutoMacro
 {
     public partial class Form1 : Form
     {
-        [StructLayout(LayoutKind.Sequential)]
-        public struct RECT
-        {
-            public int Left;        // x position of upper-left corner  
-            public int Top;         // y position of upper-left corner  
-            public int Right;       // x position of lower-right corner  
-            public int Bottom;      // y position of lower-right corner  
-        }
-
-        enum KeyModifier
-        {
-            None = 0,
-            Alt = 1,
-            Control = 2,
-            Shift = 4,
-            WinKey = 8
-        }
-
-        class TargetApplication
-        {
-            public string Title { get; set; }
-
-            public int SizeX
-            {
-                get { return Rect.Right - Rect.Left; }
-            }
-
-            public int SizeY
-            {
-                get { return Rect.Bottom - Rect.Top; }
-            }
-
-            public IntPtr Handle { get; set; }
-            public RECT Rect { get; set; }
-        }
-
         private TargetApplication target = new TargetApplication();
 
         protected override void WndProc(ref Message message)
