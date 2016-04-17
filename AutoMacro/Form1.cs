@@ -3,41 +3,12 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using AutoMacro.Class;
 
 namespace AutoMacro
 {
     public partial class Form1 : Form
     {
-        [DllImport("user32.dll")]
-        private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
-        [DllImport("user32.dll")]
-        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
-
-        [DllImport("user32.dll")]
-        static extern IntPtr GetForegroundWindow();
-        [DllImport("user32.dll")]
-        static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool ClientToScreen(IntPtr hWnd, ref Point lpPoint);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool ScreenToClient(IntPtr hWnd, ref Point lpPoint);
-
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern int SendMessage(IntPtr hWnd, int message, int wParam, int lParam);
-
         [StructLayout(LayoutKind.Sequential)]
         public struct RECT
         {
@@ -95,7 +66,7 @@ namespace AutoMacro
             InitializeComponent();
 
             int id = 100;
-            RegisterHotKey(Handle, id, (int)KeyModifier.Shift, Keys.A.GetHashCode());
+            Win32.RegisterHotKey(Handle, id, (int)KeyModifier.Shift, Keys.A.GetHashCode());
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -103,19 +74,19 @@ namespace AutoMacro
             base.OnFormClosing(e);
 
             int id = 100;
-            UnregisterHotKey(Handle, id);
+            Win32.UnregisterHotKey(Handle, id);
         }
 
         private void GetCurrentProcess()
         {
             
-            var handle = GetForegroundWindow();
+            var handle = Win32.GetForegroundWindow();
             int count = 255;
             var stringBuilder = new StringBuilder();
-            GetWindowText(handle, stringBuilder, count);
+            Win32.GetWindowText(handle, stringBuilder, count);
 
             RECT rect;
-            GetClientRect(handle, out rect);
+            Win32.GetClientRect(handle, out rect);
             var mousePosition = MousePosition;
             var sb = new StringBuilder();
 
@@ -123,7 +94,7 @@ namespace AutoMacro
             target.Title = stringBuilder.ToString();
             target.Rect = rect;
 
-            ScreenToClient(target.Handle, ref mousePosition);
+            Win32.ScreenToClient(target.Handle, ref mousePosition);
             position = mousePosition;
 
             sb.AppendFormat("Window Title: {0}\n", stringBuilder);
@@ -143,8 +114,8 @@ namespace AutoMacro
             int x = position.X;
             int y = position.Y;
             int pos = ((y << 0x10) | x);
-            SendMessage(target.Handle, (int)0x201, 1, pos);
-            SendMessage(target.Handle, (int)0x202, 0, pos);
+            Win32.SendMessage(target.Handle, (int)0x201, 1, pos);
+            Win32.SendMessage(target.Handle, (int)0x202, 0, pos);
         }
     }
 }
