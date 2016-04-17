@@ -49,6 +49,7 @@
     <Compile Include="Class\RECT.cs" />
     <Compile Include="Class\TargetApplication.cs" />
     <Compile Include="Class\Win32.cs" />
+    <Compile Include="Enum\Const.cs" />
     <Compile Include="Enum\KeyModifier.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

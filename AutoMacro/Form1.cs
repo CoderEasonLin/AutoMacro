@@ -15,7 +15,7 @@ namespace AutoMacro
         {
             base.WndProc(ref message);
 
-            if (message.Msg == 0x0312)
+            if (message.Msg == WM.HOTKEY)
             {
                 Keys key = (Keys)(((int)message.LParam >> 16) & 0xFFFF);                  // The key of the hotkey that was pressed.
                 KeyModifier modifier = (KeyModifier)((int)message.LParam & 0xFFFF);       // The modifier of the hotkey that was pressed.
@@ -43,7 +43,6 @@ namespace AutoMacro
 
         private void GetCurrentProcess()
         {
-            
             var handle = Win32.GetForegroundWindow();
             int count = 255;
             var stringBuilder = new StringBuilder();
