@@ -3,7 +3,7 @@ using System.Text;
 
 namespace AutoMacro.Class
 {
-    class TargetApplication
+    public class TargetApplication
     {
         public string Title { get; set; }
 

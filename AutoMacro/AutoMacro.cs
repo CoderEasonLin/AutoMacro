@@ -76,34 +76,95 @@ namespace AutoMacro
         {
             Point mousePosition = MousePosition;
             Win32.ScreenToClient(target.Handle, ref mousePosition);
-            txtMacro.AppendText(string.Format("MOUSE POS {0} {1}\n", mousePosition.X, mousePosition.Y));
+            txtCode.AppendText(string.Format("MOUSE POS {0} {1}\n", mousePosition.X, mousePosition.Y));
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonRun_Click(object sender, EventArgs e)
         {
-            StringBuilder sb = new StringBuilder(txtMacro.Text);
-            MacroCompiler compiler = new MacroCompiler(sb);
+            StringBuilder code = new StringBuilder(txtCode.Text);
+            MacroCompiler compiler = new MacroCompiler(code, target);
         }
     }
 
     public class MacroCompiler
     {
+        public List<Regex> Regexes { get; set; }
+
         public Regex MousePosition = new Regex("^MOUSE POS (\\d+) (\\d+)$");
         public Regex FuncStart = new Regex("FUNC ");
 
-        public MacroCompiler(StringBuilder sb)
+        public StringBuilder Code { get; set; }
+        public TargetApplication TargetApplication { get; set; }
+
+        public MacroCompiler(StringBuilder code, TargetApplication targetApplication)
         {
-            
+            InitialRegex();
+            Code = code;
+            TargetApplication = targetApplication;
         }
 
-        public MacroAction Compile()
+        private void InitialRegex()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Macro Compile()
         {
             throw new NotImplementedException();
         }
     }
 
-    public class MacroAction
+    public abstract class CodeRule
     {
-        public List<Class.Movement> Actions { get; set; }
+        protected Regex Regex;
+
+        public virtual bool IsMatch(string line)
+        {
+            return Regex.IsMatch(line);
+        }
+
+        public abstract Movement GetMovement(string line, IntPtr handle);
+    }
+
+    public class MousePositionRule : CodeRule
+    {
+        public MousePositionRule()
+        {
+            Regex = new Regex("^MOUSE POS (\\d+) (\\d+)$");
+        }
+
+        public override Movement GetMovement(string line, IntPtr handle)
+        {
+            var list = Regex.Split(line);
+
+            var movement = new MousePositionMovement(handle)
+            {
+                X = Convert.ToInt32(list[1]),
+                Y = Convert.ToInt32(list[2])
+            };
+            return movement;
+        }
+    }
+
+    public class MousePositionMovement : Movement
+    {
+        public MousePositionMovement(IntPtr handle) : base(handle)
+        {
+            Type = MovementType.MousePosition;
+        }
+
+        public int X { get; set; }
+        public int Y { get; set; }
+
+        public void Do()
+        {
+            
+        }
+    }
+
+
+    public class Macro
+    {
+        public List<Movement> Movements { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace AutoMacro.Enum
 {
-    public enum ActionType
+    public enum MovementType
     {
         MousePosition
     }
