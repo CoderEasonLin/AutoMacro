@@ -15,7 +15,7 @@ namespace AutoMacro
         {
             base.WndProc(ref message);
 
-            if (message.Msg == WM.HOTKEY)
+            if (message.Msg == WindowsMessage.WM_HOTKEY.GetHashCode())
             {
                 Keys key = (Keys)(((int)message.LParam >> 16) & 0xFFFF);                  // The key of the hotkey that was pressed.
                 KeyModifier modifier = (KeyModifier)((int)message.LParam & 0xFFFF);       // The modifier of the hotkey that was pressed.
@@ -48,14 +48,15 @@ namespace AutoMacro
             var stringBuilder = new StringBuilder(count);
             Win32.GetWindowText(handle, stringBuilder, count);
 
-            RECT rect;
+            RECT rect, windowRect;
             Win32.GetClientRect(handle, out rect);
+            Win32.GetWindowRect(handle, out windowRect);
             var mousePosition = MousePosition;
             var sb = new StringBuilder();
 
             target.Handle = handle;
             target.Title = stringBuilder.ToString();
-            target.Rect = rect;
+            target.Rect = windowRect;//rect;
 
             Win32.ScreenToClient(target.Handle, ref mousePosition);
             position = mousePosition;
@@ -79,6 +80,18 @@ namespace AutoMacro
             int pos = ((y << 0x10) | x);
             Win32.SendMessage(target.Handle, 0x201, 1, pos);
             Win32.SendMessage(target.Handle, 0x202, 0, pos);
+        }
+
+        /// <summary>
+        /// 調整視窗位置與大小
+        /// https://msdn.microsoft.com/zh-tw/library/windows/desktop/ms633545(v=vs.85).aspx
+        /// http://www.cnblogs.com/del/archive/2008/02/12/1067358.html
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Win32.SetWindowPos(target.Handle, IntPtr.Zero, 0, 0, target.SizeX, target.SizeY, 0x0002 | 0x0004);
         }
     }
 }

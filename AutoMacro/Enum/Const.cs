@@ -2,7 +2,7 @@
 {
     public class WM
     {
-        public const int HOTKEY = 0x312;
+        public const int SysKeyDown = 0x0104;
+        public const int Hotkey = 0x0312;
     }
-
 }

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using AutoMacro.Class;
 using AutoMacro.Enum;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -19,16 +20,18 @@ namespace AutoMacro.Tests
         {
             // Arrange
             var code = "MOUSE POS 123 456\n";
-            var sb = new StringBuilder(code);
+            var sb = new List<string> { code };
+            var target = new TargetApplication();
 
             // Act
-            var macroCompiler = new MacroCompiler(sb);
+            var macroCompiler = new MacroCompiler(sb, target);
             var macro = macroCompiler.Compile();
 
             // Assert
             Assert.AreEqual(1, macro.Movements.Count);
-            var movement = macro.Movements[0];
-            Assert.AreEqual(MovementType.MousePosition, movement);
+            var movement = macro.Movements[0] as MousePositionMovement;
+            Assert.IsNotNull(movement);
+            Assert.AreEqual(MovementType.MousePosition, movement.Type);
             Assert.AreEqual(123, movement.X);
             Assert.AreEqual(456, movement.Y);
         }

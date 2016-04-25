@@ -2,6 +2,12 @@
 {
     public enum MovementType
     {
-        MousePosition
+        MousePosition,
+        MouseLButtonDown,
+        MouseLButtonUp,
+        KeyDown,
+        KeyUp,
+        SysKeyDown,
+        SysKeyUp,
     }
 }

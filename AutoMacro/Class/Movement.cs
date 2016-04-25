@@ -3,14 +3,16 @@ using AutoMacro.Enum;
 
 namespace AutoMacro.Class
 {
-    public class Movement
+    public abstract class Movement
     {
-        public Movement(IntPtr handle)
+        protected Movement(IntPtr handle)
         {
             Handle = handle;
         }
 
         public IntPtr Handle { get; set; }
         public MovementType Type { get; set; }
+
+        public abstract void Do();
     }
 }

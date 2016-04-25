@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using AutoMacro.Class;
@@ -54,7 +53,7 @@ namespace AutoMacro
         protected override void WndProc(ref Message m)
         {
             base.WndProc(ref m);
-            if (m.Msg == WM.HOTKEY)
+            if (m.Msg == WindowsMessage.WM_HOTKEY.GetHashCode())
             {
                 int id = m.WParam.ToInt32();
                 CallHotKeyAction(id);
@@ -81,90 +80,75 @@ namespace AutoMacro
 
         private void buttonRun_Click(object sender, EventArgs e)
         {
-            StringBuilder code = new StringBuilder(txtCode.Text);
-            MacroCompiler compiler = new MacroCompiler(code, target);
+            MacroCompiler compiler = new MacroCompiler(txtCode.Lines.ToList(), target);
+            var macro = compiler.Compile();
+            macro.Run();
         }
     }
 
     public class MacroCompiler
     {
         public List<Regex> Regexes { get; set; }
+        public List<CodeRule> CodeRules { get; set; }
 
-        public Regex MousePosition = new Regex("^MOUSE POS (\\d+) (\\d+)$");
-        public Regex FuncStart = new Regex("FUNC ");
-
-        public StringBuilder Code { get; set; }
+        public List<string> Codes { get; set; }
         public TargetApplication TargetApplication { get; set; }
 
-        public MacroCompiler(StringBuilder code, TargetApplication targetApplication)
+        public MacroCompiler(List<string> code, TargetApplication targetApplication)
         {
-            InitialRegex();
-            Code = code;
+            InitialCodeRules();
+            Codes = code;
             TargetApplication = targetApplication;
         }
 
-        private void InitialRegex()
+        private void InitialCodeRules()
         {
-            throw new NotImplementedException();
+            CodeRules = new List<CodeRule>();
+            CodeRules.Add(new MousePositionRule());
+            CodeRules.Add(new MouseLButtonDownRule());
+            CodeRules.Add(new MouseLButtonUpRule());
+            CodeRules.Add(new SleepRule());
+            CodeRules.Add(new KeyDownRule());
+            CodeRules.Add(new KeyUpRule());
+            CodeRules.Add(new SysKeyDownRule());
+            CodeRules.Add(new SysKeyUpRule());
+            CodeRules.Add(new FuncStartRule());
+            CodeRules.Add(new FuncEndRule());
+            CodeRules.Add(new FuncCallRule());
+            //CodeRules.Add(new ForLoopStartRule());
+            //CodeRules.Add(new ForLoopEndRule());
         }
 
         public Macro Compile()
         {
-            throw new NotImplementedException();
+            var macro = new Macro();
+            ExtractFunctionCodes();
+            ExtractForLoopCodes();
+            ExtractCodes();
+            foreach (var code in Codes)
+            {
+                foreach (var codeRule in CodeRules)
+                {
+                    if (codeRule.IsMatch(code))
+                    {
+                        macro.Movements.Add(codeRule.GetMovement(code, TargetApplication.Handle));
+                    }
+                }
+            }
+            return macro;
         }
     }
 
-    public abstract class CodeRule
+    internal class FuncStartRule : CodeRule
     {
-        protected Regex Regex;
-
-        public virtual bool IsMatch(string line)
+        public FuncStartRule()
         {
-            return Regex.IsMatch(line);
-        }
-
-        public abstract Movement GetMovement(string line, IntPtr handle);
-    }
-
-    public class MousePositionRule : CodeRule
-    {
-        public MousePositionRule()
-        {
-            Regex = new Regex("^MOUSE POS (\\d+) (\\d+)$");
+            Regex = new Regex("^Func (\\w+)$");
         }
 
         public override Movement GetMovement(string line, IntPtr handle)
         {
-            var list = Regex.Split(line);
-
-            var movement = new MousePositionMovement(handle)
-            {
-                X = Convert.ToInt32(list[1]),
-                Y = Convert.ToInt32(list[2])
-            };
-            return movement;
+            throw new NotImplementedException();
         }
-    }
-
-    public class MousePositionMovement : Movement
-    {
-        public MousePositionMovement(IntPtr handle) : base(handle)
-        {
-            Type = MovementType.MousePosition;
-        }
-
-        public int X { get; set; }
-        public int Y { get; set; }
-
-        public void Do()
-        {
-            
-        }
-    }
-
-
-    public class Macro
-    {
-        public List<Movement> Movements { get; set; }
     }
 }
